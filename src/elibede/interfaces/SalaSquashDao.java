@@ -8,7 +8,8 @@ package elibede.interfaces;
 import elibede.model.SalaSquash;
 import elibede.model.Socio;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  *
@@ -17,7 +18,7 @@ import java.util.List;
 public interface SalaSquashDao {
   public SalaSquash criarSalaSquash(String Codigo, String Estado, String NroId) throws SQLException;
 
-  public List<SalaSquash> getSalasDisponiveis() throws SQLException;
+  public String getSalasDisponiveis() throws SQLException;
 
   public boolean reservarSalaSquash(Socio socio, String codigo, String data, String hora) throws SQLException;
     

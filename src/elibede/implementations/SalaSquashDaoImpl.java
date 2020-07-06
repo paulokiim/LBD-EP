@@ -10,7 +10,8 @@ import elibede.interfaces.SalaSquashDao;
 import elibede.model.SalaSquash;
 import elibede.database.MySql;
 import elibede.model.Socio;
-import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.ArrayList;
 
 /**
@@ -37,28 +38,60 @@ public class SalaSquashDaoImpl implements SalaSquashDao{
       return true;
   }
   
-  public List<SalaSquash> getSalasDisponiveis() throws SQLException{
+  public String getSalasDisponiveis() throws SQLException{
     Connection conn = MySql.createConnection();
-    String query = "SELECT SS.NroId, R.Hora\n" +
-                    "FROM teste.SalaSquash SS\n" +
-                    "LEFT JOIN teste.Reserva R\n" +
+    String query = "SELECT SS.NroId, R.Data\n" +
+                    "FROM teste.SalaSquash AS SS\n" +
+                    "LEFT JOIN teste.Reserva AS R\n" +
                     "ON SS.NroId = R.NroId;";
     Statement st = conn.createStatement();
     ResultSet result = st.executeQuery(query);
     
-    List<SalaSquash> listaSalaSquash = new ArrayList<SalaSquash>();
+    HashMap<String, ArrayList<String>> listaSalaSquash = new HashMap<String, ArrayList<String>>();
     
     while(result.next()) {
+//        listaSalaSquash.put("1", "10:30");
         String NroId = result.getString(1);
         String Hora = result.getString(2);
+        ArrayList<String> reservas = listaSalaSquash.get(NroId);
+//        System.out.println("==> " + reservas);
         
-        if(Hora == null) {
-            
+        if (reservas == null) {
+            reservas = new ArrayList<String>();
         }
         
+        if (Hora != null) {
+//            System.out.println("==> " + Hora);
+            reservas.add(Hora);
+            listaSalaSquash.put(NroId, reservas);
+        }
+        else {
+            listaSalaSquash.put(NroId, reservas);
+        }
     }
     
-    return listaSalaSquash;
+//    System.out.println("==> " + listaSalaSquash);
+    HashMap<String, String> horariosDisponiveis = new HashMap<String, String>();
+    String resultadoFinal = "";
+    for (Map.Entry<String,ArrayList<String>> entry : listaSalaSquash.entrySet()) {
+        System.out.println("Key = " + entry.getKey() + 
+                             ", Value = " + entry.getValue());
+        String resultadoHorarios = "Horarios reservados: ";
+        
+        if (entry.getValue().size() == 0) {
+            resultadoHorarios = "Todos horarios disponiveis";
+        }
+        
+        for (String horario : entry.getValue()) {
+            resultadoHorarios += horario + "\n\t\t\t  ";
+        }
+        
+        horariosDisponiveis.put(entry.getKey(), resultadoHorarios);
+        resultadoFinal += entry.getKey() + " => " + resultadoHorarios + "\n";
+    }
+//    System.out.println(horariosDisponiveis);
+//    System.out.println(resultadoFinal);
+    return resultadoFinal;
   }
 
 }

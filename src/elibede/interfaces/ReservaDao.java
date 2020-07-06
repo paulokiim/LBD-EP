@@ -19,6 +19,6 @@ import java.sql.*;
 public interface ReservaDao {
   public Reserva criarReserva(Date Data, String NroSocio, String NroId) throws SQLException;
 
-  public SalaSquash getReservasFromSocios(Socio socio) throws SQLException;
+  public String getReservasFromSocios(String socio) throws SQLException;
     
 }
