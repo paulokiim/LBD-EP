@@ -18,7 +18,7 @@ public class SalaDaoImpl implements SalaDao{
   public Sala criarSala(String NroId, String Area, String Localizacao) throws SQLException {
     Connection conn = MySql.createConnection();
     String query = String.format("INSERT INTO teste.Sala (NroId, Area, Localizacao) VALUES ('%s','%s','%s');", NroId, Area, Localizacao);
-    System.out.println(query);
+//    System.out.println(query);
 //    String query = "SELECT * FROM teste.Sala;";
 //    ResultSet result = MySql.executeQuery(conn, query);
     int createCount = MySql.executeUpdate(conn, query);

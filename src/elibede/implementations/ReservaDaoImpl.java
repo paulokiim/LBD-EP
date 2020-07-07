@@ -32,7 +32,7 @@ public class ReservaDaoImpl implements ReservaDao{
     st.setString(2, NroSocio);
     st.setString(3, NroId);
     int createCount = st.executeUpdate();
-    System.out.println(createCount);
+//    System.out.println(createCount);
     Reserva novaReserva = null;
     if (createCount > 0) {
          novaReserva = new Reserva(Data, NroSocio, NroId);
@@ -66,7 +66,7 @@ public class ReservaDaoImpl implements ReservaDao{
         String NroId = result.getString(3);
         String Nome = result.getString(4);
         nomeSocio = Nome;
-        String Data = result.getString(4);
+        String Data = result.getString(5);
         ArrayList<String> horarios = listaSalaSquash.get(NroId);
         
         if (horarios == null) {

@@ -22,7 +22,7 @@ public class SalaSquashDaoImpl implements SalaSquashDao{
   public SalaSquash criarSalaSquash(String Codigo, String Estado, String NroId) throws SQLException {
     Connection conn = MySql.createConnection();
     String query = String.format("INSERT INTO teste.SalaSquash (Codigo, Estado, NroId) VALUES ('%s','%s','%s')", Codigo, Estado, NroId);
-    System.out.println(query);
+//    System.out.println(query);
     int createCount = MySql.executeUpdate(conn, query);
     
     SalaSquash novaSalaSquash = null;
