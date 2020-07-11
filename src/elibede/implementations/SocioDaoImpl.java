@@ -20,7 +20,7 @@ public class SocioDaoImpl implements SocioDao {
       String DocsBancarios) throws SQLException {
     Connection conn = MySql.createConnection();
     String query = String.format("INSERT INTO teste.Socio (NroSocio, Nome, Telefone, Endereco, Profissao, DocsBancarios) VALUES ('%s','%s','%s','%s','%s','%s');", NroSocio, Nome, Telefone, Endereco, Profissao, DocsBancarios);
-    System.out.println(query);
+//    System.out.println(query);
 //    String query = "SELECT * FROM teste.SalaSquash;";
 //    ResultSet result = MySql.executeQuery(conn, query);
     int createCount = MySql.executeUpdate(conn, query);

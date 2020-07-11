@@ -54,7 +54,8 @@ public class ReservaDaoImpl implements ReservaDao{
                     "	ON RS.NroId = SS.NroId\n" +
                     "INNER JOIN Socio SC\n" +
                     "	ON SC.NroSocio = ?\n" +
-                    "   AND SC.NroSocio = RS.NroSocio;";
+                    "   AND SC.NroSocio = RS.NroSocio\n" +
+                    "LIMIT 1000;";
     PreparedStatement pt = conn.prepareStatement(query);
     pt.setString(1, socio);
     ResultSet result = pt.executeQuery();
@@ -91,6 +92,51 @@ public class ReservaDaoImpl implements ReservaDao{
     }
     
     String resultadoFinal = "Sócio: " + nomeSocio + "\n" + keyValue;
+    return resultadoFinal;
+  }
+  
+  public String getReservasFromSalas() throws SQLException {
+    Connection conn = MySql.createConnection();
+    String query = "SELECT SS.Codigo\n" +
+                    "  	,SS.Estado\n" +
+                    "  	,SS.NroId\n" +
+                    "   ,RS.Data\n" +
+                    "FROM SalaSquash SS\n" +
+                    "INNER JOIN Reserva RS\n" +
+                    "	ON RS.NroId = SS.NroId\n" +
+                    "LIMIT 1000;";
+    PreparedStatement pt = conn.prepareStatement(query);
+    ResultSet result = pt.executeQuery();
+      
+    HashMap<String, ArrayList<String>> listaSalaSquash = new HashMap<String, ArrayList<String>>();
+    
+    while (result.next()) {
+        String NroId = result.getString(3);
+        String Data = result.getString(4);
+        ArrayList<String> horarios = listaSalaSquash.get(NroId);
+        
+        if (horarios == null) {
+            horarios = new ArrayList<String>();
+        }
+        
+        horarios.add(Data);
+        listaSalaSquash.put(NroId, horarios);
+    }
+    
+    String keyValue = "";
+    for (Map.Entry<String,ArrayList<String>> entry : listaSalaSquash.entrySet()) {
+//        System.out.println("Key = " + entry.getKey() + 
+//                             ", Value = " + entry.getValue());
+        String resultadoHorarios = "";
+        
+        for (String horario : entry.getValue()) {
+            resultadoHorarios += horario + "\n\t\t     ";
+        }
+        
+        keyValue += "Sala: " + entry.getKey() + " => Horários: " + resultadoHorarios + "\n";
+    }
+    
+    String resultadoFinal = keyValue;
     return resultadoFinal;
   }
     
