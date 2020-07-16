@@ -63,8 +63,10 @@ public class ELIBEDE {
 //            }
 //        }
 //        int cont = 0;
-//        for (int i = 0; i < 100000; i++) {
+//        for (int i = 0; i < 100000; i+=10) {
 //            String NroId = Integer.toString(i);
+//            String Nome = a[i%10];
+//            String DocsBancarios = b[i%2];
 //            if (cont == 500) {
 //                cont = 0;
 //                query += ";";
@@ -75,9 +77,9 @@ public class ELIBEDE {
 //                if (createCount > 0) {
 //                    System.out.println("FOI!");
 //                    query = "INSERT INTO teste.Reserva (Data, NroSocio, NroId) VALUES ";
-////                    query = "INSERT INTO teste.SalaSquash (Codigo, Estado, NroId) VALUES ";
-////                    query = "INSERT INTO teste.Sala (NroId, Area, Localizacao) VALUES ";
-////                    query = "INSERT INTO teste.Socio (NroSocio, Nome, Telefone, Endereco, Profissao, DocsBancarios) VALUES ";
+//                    query = "INSERT INTO teste.SalaSquash (Codigo, Estado, NroId) VALUES ";
+//                    query = "INSERT INTO teste.Sala (NroId, Area, Localizacao) VALUES ";
+//                    query = "INSERT INTO teste.Socio (NroSocio, Nome, Telefone, Endereco, Profissao, DocsBancarios) VALUES ";
 //                }
 //            }
 //            if (cont == 0) {
@@ -91,7 +93,7 @@ public class ELIBEDE {
         
         int resp;
         do {
-            System.out.println("1- Verificar disponibilidade de sala de squash\n2- Verificar reservas por socio\n3- Verificar reservas por sala\n4- Menu de criacao\n0-Sair do programa");
+            System.out.println("1- Verificar disponibilidade de todas salas de squash\n2- Verificar reservas por socio\n3- Verificar reservas por sala\n4- Menu de criacao\n0-Sair do programa");
             resp = sc.nextInt();
             sc.nextLine();
             if (resp == 0) return;
@@ -108,7 +110,10 @@ public class ELIBEDE {
                     System.out.println(reservas);
                     break;
                 case 3:
-                    String reservasPorSala = reservaImplement.getReservasFromSalas();
+                    String NroId;
+                    System.out.println("Digite o NroId da sala: ");
+                    NroId = sc.nextLine();
+                    String reservasPorSala = reservaImplement.getReservasFromSalas(NroId);
                     System.out.println(reservasPorSala);
                     break;
                 case 4:
@@ -119,7 +124,7 @@ public class ELIBEDE {
                         sc.nextLine();
                         switch(resp2){
                             case 1:
-                                String NroId = "";
+                                NroId = "";
                                 String Area = "";
                                 String Localizacao = "";
                                 System.out.println("Digite o seu ID: ");
@@ -151,6 +156,7 @@ public class ELIBEDE {
                                 String[] result = resposta.split(",");
                                 Socio novoSocio = socioImplement.criarSocio(result[0].trim(), result[1].trim(), result[2].trim(), result[3].trim(), result[4].trim(), result[5].trim());
                                 System.out.println(novoSocio.getNome());
+                                break;
                             case 4:
                                 String dataResp = "";
                                 String NroSocio = "";
@@ -170,10 +176,10 @@ public class ELIBEDE {
                                 Date Data = Date.from(localData.atZone(ZoneId.systemDefault()).toInstant());
                                 Reserva novaReserva = reservaImplement.criarReserva(Data, NroSocio, Id);
                                 System.out.println(novaReserva.getNroSocio());
+                                break;
                         }
                     } while(resp2 != 0);
             }
         } while(resp != 0);
     }
-    
 }

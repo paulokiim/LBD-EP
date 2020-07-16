@@ -85,7 +85,7 @@ public class ReservaDaoImpl implements ReservaDao{
         String resultadoHorarios = "";
         
         for (String horario : entry.getValue()) {
-            resultadoHorarios += horario + "\n\t\t     ";
+            resultadoHorarios += horario + "\n\t\t\t ";
         }
         
         keyValue += "Sala: " + entry.getKey() + " => Horários: " + resultadoHorarios + "\n";
@@ -95,7 +95,7 @@ public class ReservaDaoImpl implements ReservaDao{
     return resultadoFinal;
   }
   
-  public String getReservasFromSalas() throws SQLException {
+  public String getReservasFromSalas(String nroId) throws SQLException {
     Connection conn = MySql.createConnection();
     String query = "SELECT SS.Codigo\n" +
                     "  	,SS.Estado\n" +
@@ -103,9 +103,11 @@ public class ReservaDaoImpl implements ReservaDao{
                     "   ,RS.Data\n" +
                     "FROM SalaSquash SS\n" +
                     "INNER JOIN Reserva RS\n" +
-                    "	ON RS.NroId = SS.NroId\n" +
+                    "   ON SS.NroId = ?\n" +
+                    "	AND RS.NroId = SS.NroId\n" +
                     "LIMIT 1000;";
     PreparedStatement pt = conn.prepareStatement(query);
+    pt.setString(1, nroId);
     ResultSet result = pt.executeQuery();
       
     HashMap<String, ArrayList<String>> listaSalaSquash = new HashMap<String, ArrayList<String>>();
@@ -130,7 +132,7 @@ public class ReservaDaoImpl implements ReservaDao{
         String resultadoHorarios = "";
         
         for (String horario : entry.getValue()) {
-            resultadoHorarios += horario + "\n\t\t     ";
+            resultadoHorarios += horario + "\n\t\t\t ";
         }
         
         keyValue += "Sala: " + entry.getKey() + " => Horários: " + resultadoHorarios + "\n";

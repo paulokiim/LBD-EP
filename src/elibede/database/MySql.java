@@ -15,7 +15,7 @@ public class MySql {
   public static Connection createConnection() throws SQLException {
     String url = "jdbc:mysql://localhost:3306/teste"; // Nome da base de dados
     String user = "root"; // nome do usuário do MySQL
-    String password = "mysql"; // senha do MySQL
+    String password = "pjskimkr"; // senha do MySQL
 
     Connection conexao = DriverManager.getConnection(url, user, password);
 

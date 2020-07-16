@@ -43,7 +43,8 @@ public class SalaSquashDaoImpl implements SalaSquashDao{
     String query = "SELECT SS.NroId, R.Data\n" +
                     "FROM teste.SalaSquash AS SS\n" +
                     "LEFT JOIN teste.Reserva AS R\n" +
-                    "ON SS.NroId = R.NroId;";
+                    "ON SS.NroId = R.NroId\n" +
+                    "LIMIT 1000;";
     Statement st = conn.createStatement();
     ResultSet result = st.executeQuery(query);
     
@@ -74,16 +75,16 @@ public class SalaSquashDaoImpl implements SalaSquashDao{
     HashMap<String, String> horariosDisponiveis = new HashMap<String, String>();
     String resultadoFinal = "";
     for (Map.Entry<String,ArrayList<String>> entry : listaSalaSquash.entrySet()) {
-        System.out.println("Key = " + entry.getKey() + 
-                             ", Value = " + entry.getValue());
+//        System.out.println("Key = " + entry.getKey() + 
+//                             ", Value = " + entry.getValue());
         String resultadoHorarios = "Horarios reservados: ";
         
         if (entry.getValue().size() == 0) {
-            resultadoHorarios = "Todos horarios disponiveis";
+            resultadoHorarios = "Todos horarios disponiveis\n";
         }
         
         for (String horario : entry.getValue()) {
-            resultadoHorarios += horario + "\n\t\t\t  ";
+            resultadoHorarios += horario + "\n\t\t\t     ";
         }
         
         horariosDisponiveis.put(entry.getKey(), resultadoHorarios);
